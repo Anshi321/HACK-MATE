@@ -192,15 +192,11 @@ export function StageSelection({ onSelectStage, projectName, onHome, onOpenResou
                     {STAGES.map((stage, i) => (
                         <div
                             key={stage.id}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`Open ${stage.title} phase`}
                             className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] border shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer animate-in fade-in slide-in-from-bottom-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isDark
                                 ? 'bg-gray-800 border-gray-700 hover:border-gray-500 hover:shadow-gray-900/30 focus-visible:outline-white'
                                 : 'bg-white border-gray-100 hover:shadow-gray-900/10 hover:border-gray-900/10 focus-visible:outline-gray-900'}`}
                             style={{ animationDelay: `${i * 100}ms` }}
                             onClick={() => onSelectStage(stage.id)}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectStage(stage.id); } }}
                         >
                             <div className="flex justify-between items-start mb-6">
                                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:bg-black group-hover:text-white group-hover:rotate-6 group-hover:scale-110 ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-50 text-gray-900'}`}>
@@ -225,9 +221,13 @@ export function StageSelection({ onSelectStage, projectName, onHome, onOpenResou
                             <p className={`text-sm font-medium mb-6 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Phase {i + 1} of 8</p>
 
                             <div className={`flex items-center justify-between pt-6 border-t transition-colors ${isDark ? 'border-gray-700 group-hover:border-gray-600' : 'border-gray-50 group-hover:border-gray-200'}`}>
-                                <span className={`text-xs font-bold flex items-center gap-2 transition-colors ${isDark ? 'text-gray-600 group-hover:text-white' : 'text-gray-300 group-hover:text-gray-900'}`}>
-                                    View Phase <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                                </span>
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); onSelectStage(stage.id); }}
+                                    aria-label={`Open ${stage.title} phase`}
+                                    className={`text-xs font-bold flex items-center gap-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 rounded ${isDark ? 'text-gray-600 group-hover:text-white focus-visible:outline-white' : 'text-gray-300 group-hover:text-gray-900 focus-visible:outline-gray-900'}`}
+                            >
+                                    View Phase <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                                </button>
                                 <div className="relative" onClick={(e) => e.stopPropagation()}>
                                     <button
                                         onClick={() => setAssigningStage(stage.id)}
