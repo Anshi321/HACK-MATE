@@ -192,9 +192,9 @@ export function StageSelection({ onSelectStage, projectName, onHome, onOpenResou
                     {STAGES.map((stage, i) => (
                         <div
                             key={stage.id}
-                            className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] border shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer animate-in fade-in slide-in-from-bottom-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isDark
-                                ? 'bg-gray-800 border-gray-700 hover:border-gray-500 hover:shadow-gray-900/30 focus-visible:outline-white'
-                                : 'bg-white border-gray-100 hover:shadow-gray-900/10 hover:border-gray-900/10 focus-visible:outline-gray-900'}`}
+                            className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] border shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer animate-in fade-in slide-in-from-bottom-6 ${isDark
+                                ? 'bg-gray-800 border-gray-700 hover:border-gray-500 hover:shadow-gray-900/30'
+                                : 'bg-white border-gray-100 hover:shadow-gray-900/10 hover:border-gray-900/10'}`}
                             style={{ animationDelay: `${i * 100}ms` }}
                             onClick={() => onSelectStage(stage.id)}
                         >
