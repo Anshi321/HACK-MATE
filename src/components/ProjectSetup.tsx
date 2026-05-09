@@ -65,6 +65,7 @@ export function ProjectSetup({ initialProblem, onComplete, onBack }: ProjectSetu
                         <button
                             type="button"
                             onClick={() => setIsTeam(false)}
+                            aria-pressed={!isTeam}
                             className={`py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all ${!isTeam
                                 ? `shadow-md transform scale-[1.02] ${isDark ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`
                                 : `${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}`}
@@ -74,6 +75,7 @@ export function ProjectSetup({ initialProblem, onComplete, onBack }: ProjectSetu
                         <button
                             type="button"
                             onClick={() => setIsTeam(true)}
+                            aria-pressed={isTeam}
                             className={`py-3 sm:py-4 px-4 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all ${isTeam
                                 ? `shadow-md transform scale-[1.02] ${isDark ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'}`
                                 : `${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}`}
@@ -141,22 +143,27 @@ export function ProjectSetup({ initialProblem, onComplete, onBack }: ProjectSetu
                         <label className={`block text-sm font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                             <Layout className="w-4 h-4 text-pink-500" /> Judging Focus (Pick up to 3)
                         </label>
-                        <div className="flex flex-wrap gap-2">
+                        <div
+                            role="group"
+                            aria-label="Judging focus options"
+                            className="flex flex-wrap gap-2"
+                        >
                             {['Innovation', 'Technical Complexity', 'User Experience', 'Business Model', 'Scalability', 'Feasibility'].map(focus => (
                                 <button
-                                    key={focus}
-                                    type="button"
-                                    onClick={() => toggleFocus(focus)}
-                                    className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-all border ${judgingFocus.includes(focus)
-                                        ? isDark
-                                            ? 'bg-white text-gray-900 border-white shadow-md'
-                                            : 'bg-black text-white border-black shadow-md'
-                                        : isDark
-                                            ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-gray-500'
-                                            : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}
-                                >
-                                    {focus}
-                                </button>
+    key={focus}
+    type="button"
+    onClick={() => toggleFocus(focus)}
+    aria-pressed={judgingFocus.includes(focus)}
+    className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-all border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isDark ? 'focus-visible:outline-white' : 'focus-visible:outline-gray-900'} ${judgingFocus.includes(focus)
+        ? isDark
+            ? 'bg-white text-gray-900 border-white shadow-md'
+            : 'bg-black text-white border-black shadow-md'
+        : isDark
+            ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-gray-500'
+            : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}
+>
+    {focus}
+</button>
                             ))}
                         </div>
                     </div>
@@ -166,13 +173,18 @@ export function ProjectSetup({ initialProblem, onComplete, onBack }: ProjectSetu
                         <label className={`block text-sm font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                             <Clock className="w-4 h-4 text-gray-500" /> Hackathon Duration
                         </label>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div
+                            role="group"
+                            aria-label="Hackathon duration options"
+                            className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+                        >
                             {['24', '48', '72'].map((time) => (
                                 <button
                                     key={time}
                                     type="button"
                                     onClick={() => { setTimeLeft(time); setIsCustomTime(false); }}
-                                    className={`py-3 px-4 rounded-xl border text-sm font-bold transition-all ${!isCustomTime && timeLeft === time
+                                    aria-pressed={!isCustomTime && timeLeft === time}
+                                    className={`py-3 px-4 rounded-xl border text-sm font-bold transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isDark ? 'focus-visible:outline-white' : 'focus-visible:outline-gray-900'} ${!isCustomTime && timeLeft === time
                                         ? isDark
                                             ? 'border-white bg-white text-gray-900'
                                             : 'border-gray-900 bg-gray-900 text-white'
@@ -186,7 +198,8 @@ export function ProjectSetup({ initialProblem, onComplete, onBack }: ProjectSetu
                             <button
                                 type="button"
                                 onClick={() => { setTimeLeft(''); setIsCustomTime(true); }}
-                                className={`py-3 px-4 rounded-xl border text-sm font-bold transition-all ${isCustomTime
+                                aria-pressed={isCustomTime}
+                                className={`py-3 px-4 rounded-xl border text-sm font-bold transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isDark ? 'focus-visible:outline-white' : 'focus-visible:outline-gray-900'} ${isCustomTime
                                     ? isDark
                                         ? 'border-white bg-white text-gray-900'
                                         : 'border-gray-900 bg-gray-900 text-white'

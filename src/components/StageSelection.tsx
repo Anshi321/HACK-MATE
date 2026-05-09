@@ -137,8 +137,12 @@ export function StageSelection({ onSelectStage, projectName, onHome, onOpenResou
                 {showShare && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-md animate-in fade-in duration-300">
                         <div className={`rounded-[2rem] shadow-2xl w-full max-w-lg p-10 border relative overflow-hidden ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`} onClick={(e) => e.stopPropagation()}>
-                            <button onClick={() => setShowShare(false)} className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}>
-                                <X className="w-5 h-5 text-gray-400" />
+                            <button
+                            onClick={() => setShowShare(false)}
+                            aria-label="Close share modal"
+                            className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+                        >
+                                <X className="w-5 h-5 text-gray-400" aria-hidden="true" />
                             </button>
 
                             <div className="mb-8">
@@ -188,11 +192,15 @@ export function StageSelection({ onSelectStage, projectName, onHome, onOpenResou
                     {STAGES.map((stage, i) => (
                         <div
                             key={stage.id}
-                            className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] border shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer animate-in fade-in slide-in-from-bottom-6 ${isDark
-                                ? 'bg-gray-800 border-gray-700 hover:border-gray-500 hover:shadow-gray-900/30'
-                                : 'bg-white border-gray-100 hover:shadow-gray-900/10 hover:border-gray-900/10'}`}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Open ${stage.title} phase`}
+                            className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] border shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer animate-in fade-in slide-in-from-bottom-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${isDark
+                                ? 'bg-gray-800 border-gray-700 hover:border-gray-500 hover:shadow-gray-900/30 focus-visible:outline-white'
+                                : 'bg-white border-gray-100 hover:shadow-gray-900/10 hover:border-gray-900/10 focus-visible:outline-gray-900'}`}
                             style={{ animationDelay: `${i * 100}ms` }}
                             onClick={() => onSelectStage(stage.id)}
+                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectStage(stage.id); } }}
                         >
                             <div className="flex justify-between items-start mb-6">
                                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:bg-black group-hover:text-white group-hover:rotate-6 group-hover:scale-110 ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-50 text-gray-900'}`}>
@@ -200,10 +208,14 @@ export function StageSelection({ onSelectStage, projectName, onHome, onOpenResou
                                 </div>
                                 {assignments[stage.id] && (
                                     <div
-                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ring-4 transition-colors cursor-pointer ${isDark ? 'bg-gray-700 hover:bg-gray-600 text-white ring-gray-800' : 'bg-gray-100 hover:bg-gray-200 text-gray-900 ring-white'}`}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={`Edit assignment for ${stage.title}: ${assignments[stage.id]}`}
+                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ring-4 transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 ${isDark ? 'bg-gray-700 hover:bg-gray-600 text-white ring-gray-800 focus-visible:outline-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900 ring-white focus-visible:outline-gray-900'}`}
                                         onClick={(e) => { e.stopPropagation(); setAssigningStage(stage.id); }}
+                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); e.preventDefault(); setAssigningStage(stage.id); } }}
                                     >
-                                        <User className="w-3 h-3" />
+                                        <User className="w-3 h-3" aria-hidden="true" />
                                         {assignments[stage.id]}
                                     </div>
                                 )}

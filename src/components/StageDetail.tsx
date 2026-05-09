@@ -337,8 +337,12 @@ export function StageDetail({ stageId, onBack, onOpenResources, project }: Stage
             <nav className={`border-b sticky top-0 z-50 backdrop-blur-md ${isDark ? 'border-gray-700 bg-gray-900/80' : 'border-gray-100 bg-white/80'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-auto sm:h-20 py-4 sm:py-0 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div className="flex items-center justify-between w-full sm:w-auto gap-4">
-                        <button onClick={onBack} className={`p-2 rounded-full transition-colors ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}>
-                            <ArrowLeft className={`w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
+                        <button
+                        onClick={onBack}
+                        aria-label="Go back to stage selection"
+                        className={`p-2 rounded-full transition-colors ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+                    >
+                            <ArrowLeft className={`w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} aria-hidden="true"/>
                         </button>
                         <h1 className="text-lg sm:text-xl font-extrabold flex-1 text-center sm:text-left">{stageInfo?.title}</h1>
                         <div className="w-10 sm:hidden" />
@@ -417,9 +421,11 @@ export function StageDetail({ stageId, onBack, onOpenResources, project }: Stage
                             <h2 className="text-2xl font-bold">The Golden Prompt</h2>
                             <button
                                 onClick={() => { navigator.clipboard.writeText(displayPrompt); setShowCopyFeedback(true); setTimeout(() => setShowCopyFeedback(false), 2000); }}
+                                aria-label={showCopyFeedback ? "Prompt copied to clipboard" : "Copy prompt to clipboard"}
+                                aria-live="polite"
                                 className={`font-bold text-sm px-4 py-2 rounded-xl transition-all flex items-center gap-2 ${isDark ? 'bg-gray-800 hover:bg-gray-700 text-white' : 'bg-gray-100 hover:bg-gray-200 text-black'}`}
                             >
-                                {showCopyFeedback ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                                {showCopyFeedback ? <Check className="w-4 h-4 text-green-600" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true"/>}
                                 {showCopyFeedback ? "Copied!" : "Copy Prompt"}
                             </button>
                         </div>
@@ -450,15 +456,20 @@ export function StageDetail({ stageId, onBack, onOpenResources, project }: Stage
                             {data.checklist.map((item, i) => (
                                 <div
                                     key={i}
+                                    role="checkbox"
+                                    tabIndex={0}
+                                    aria-checked={!!checkedItems[i]}
+                                    aria-label={item}
                                     onClick={() => handleCheck(i)}
-                                    className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all border ${checkedItems[i]
+                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCheck(i); } }}
+                                    className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 ${isDark ? 'focus-visible:outline-white' : 'focus-visible:outline-gray-900'} ${checkedItems[i]
                                         ? isDark ? 'bg-gray-700 border-transparent' : 'bg-gray-50 border-transparent'
                                         : isDark ? 'bg-gray-800 border-gray-700 hover:border-gray-500' : 'bg-white border-gray-100 hover:border-gray-900'}`}
                                 >
-                                    <div className={`mt-0.5 w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 transition-all ${checkedItems[i] ? 'bg-gray-900 border-gray-900 text-white' : isDark ? 'border-gray-600' : 'border-gray-200'}`}>
+                                    <div aria-hidden="true" className={`mt-0.5 w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 transition-all ${checkedItems[i] ? 'bg-gray-900 border-gray-900 text-white' : isDark ? 'border-gray-600' : 'border-gray-200'}`}>
                                         {checkedItems[i] && <Check className="w-4 h-4" />}
                                     </div>
-                                    <span className={`text-sm font-bold leading-tight ${checkedItems[i] ? 'text-gray-400 line-through' : isDark ? 'text-white' : 'text-gray-900'}`}>{item}</span>
+                                    <span aria-hidden="true" className={`text-sm font-bold leading-tight ${checkedItems[i] ? 'text-gray-400 line-through' : isDark ? 'text-white' : 'text-gray-900'}`}>{item}</span>
                                 </div>
                             ))}
                         </div>
