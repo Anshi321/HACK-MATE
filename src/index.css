@@ -10,6 +10,43 @@ body,
   margin: 0;
 }
 
+/* Subtle, consistent scrollbar styling across scrollable containers */
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-x-auto::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track,
+.overflow-x-auto::-webkit-scrollbar-track,
+.overflow-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb,
+.overflow-x-auto::-webkit-scrollbar-thumb,
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 9999px;
+}
+
+/* Darker thumb for dark-background code blocks */
+pre.overflow-x-auto::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+pre.overflow-x-auto {
+  scrollbar-color: #4b5563 transparent;
+}
+
 html,
 body {
   min-height: 100vh;
